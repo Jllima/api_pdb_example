@@ -48,4 +48,9 @@ group :development do
   gem 'traceroute'
 end
 
+group :production do
+  gem 'rspec-rails', '~> 4.0.1'
+  gem 'guard-rspec', require: false
+end
+
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
