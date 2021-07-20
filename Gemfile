@@ -40,16 +40,12 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'spring'
 
+  gem 'rails-erd'
+
   gem 'rubocop', require: false
   gem 'rubycritic', require: false
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'traceroute'
 end
-
-group :production do
-  gem 'rspec-rails', '~> 4.0.1'
-  gem 'guard-rspec', require: false
-end
-
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
