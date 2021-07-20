@@ -551,11 +551,7 @@ components:
             password_confirmation:
               type: string
 servers:
-- url: http://localhost:3003
+- url: https://apipdb.herokuapp.com
   variables:
     defaultHost:
-      default: localhost:3003
-- url: http://heroku-pdb.com
-  variables:
-    defaultHost:
-      default: heroku-pdb.com
+      default: apipdb.herokuapp.com
