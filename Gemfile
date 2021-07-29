@@ -11,7 +11,6 @@ gem 'api_pack', '~> 1.3.1'
 gem 'bcrypt', '~> 3.1.7'
 gem 'blueprinter'
 gem 'jwt'
-gem 'mini_magick'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'pundit'
@@ -38,6 +37,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'brakeman'
   gem 'listen', '~> 3.3'
   gem 'spring'
 
@@ -48,7 +48,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'traceroute'
 end
-
 group :production do
   gem 'rspec-rails', '~> 4.0.1'
   gem 'guard-rspec', require: false

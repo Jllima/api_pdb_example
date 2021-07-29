@@ -5,6 +5,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = {
     host: 'https://apipdb.herokuapp.com'
   }
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
