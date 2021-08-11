@@ -1,5 +1,8 @@
 class EmployeeBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :name
+  fields :name, :identity
+  field :occupation do |employee|
+    employee.occupation_type_occupation
+  end
 end

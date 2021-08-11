@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     resources :orders, except: %i[destroy create] do
       get 'edit', on: :member
     end
+
+    resources :employees, except: :destroy
   end
 
   resources :orders, except: %i[destroy update]
