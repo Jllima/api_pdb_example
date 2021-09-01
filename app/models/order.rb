@@ -47,6 +47,16 @@ class Order < ApplicationRecord
     ).includes(:status, :problem).where(state: state)
   }
 
+  scope :waiting, -> { where(status_id: 1) }
+  scope :maintenance, -> { where(status_id: 2) }
+  scope :canceled, -> { where(status_id: 3) }
+  scope :finish, -> { where(status_id: 4) }
+  scope :by_categories, -> { OrdersQueries::OrdersByCategoryQuery.call }
+  scope :by_problems, -> { OrdersQueries::OrdersByProblemQuery.call }
+  scope :query_by_dates, lambda { |initial_date, end_date, type_report|
+                           OrdersQueries::OrdersByDatesAndTypesQuery.call(initial_date: initial_date, end_date: end_date, type_report: type_report)
+                         }
+
   def image_url
     # get url path
     Rails.application.routes.url_helpers.url_for(image) if image.attached?
