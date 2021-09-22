@@ -146,14 +146,15 @@ paths:
                         type: string
                       confirmation:
                         type: boolean
-                  meta:
-                    type: object
-                    properties:
-                      links:
-                        type: object
-                        properties:
-                          self:
-                            type: string
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
         '403':
           description: Acesso negado - Token inválido
           content:
@@ -215,6 +216,315 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/confirmation_params"
+  "/manager/charts/report":
+    get:
+      summary: Obter dados para gráficos
+      tags:
+      - Gráficos
+      description: Rota para obtenção de dados para gráficos, essa pode ser executada
+        por usuários autenticados
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qtds:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      os_waiting:
+                        type: integer
+                      os_maintenance:
+                        type: integer
+                      os_canceled:
+                        type: integer
+                      os_finish:
+                        type: integer
+                      os_down_time:
+                        type: integer
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+                  problems:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+  "/manager/charts/report_by_dates":
+    post:
+      summary: Obter dados para gráficos por datas
+      tags:
+      - Gráficos
+      description: Rota para obtenção de dados para gráficos por datas, essa pode
+        ser executada por usuários autenticados
+      security:
+      - Authorization: []
+      parameters: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/charts_report_params"
+  "/manager/charts/report_mecanic_by_dates":
+    post:
+      summary: Obter dados para gráficos de macânicos por ordens em manutenção e finalizadas
+        por datas
+      tags:
+      - Gráficos
+      description: Rota para obtenção de dados para gráficos por datas, essa pode
+        ser executada por usuários autenticados
+      security:
+      - Authorization: []
+      parameters: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders_maintenance:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+                  orders_finish:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/charts_mecanic_report_params"
+  "/manager/charts/report_employee_problems_by_dates":
+    post:
+      summary: Obter dados para gráfico de mecânico por problemas ou motorista por
+        problemas
+      tags:
+      - Gráficos
+      description: Rota para obtenção de dados para gráficos por funcionário e datas,
+        essa pode ser executada por usuários autenticados
+      security:
+      - Authorization: []
+      parameters: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        y:
+                          type: integer
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/charts_employee_problems_report_params"
   "/manager/employees":
     post:
       summary: API para cradastro de Funcionários
@@ -245,8 +555,34 @@ paths:
                             type: string
                           identity:
                             type: string
+                          confirmation:
+                            type: string
                           occupation:
                             type: string
+                          occupation_id:
+                            type: integer
+                          user:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              confirmation:
+                                type: boolean
+                              employee_name:
+                                type: string
+                              occupation:
+                                type: string
+                              username:
+                                type: string
+                              roles:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
                       meta:
                         type: object
                         properties:
@@ -320,10 +656,36 @@ paths:
                         type: integer
                       name:
                         type: string
+                      confirmation:
+                        type: string
                       identity:
                         type: string
                       occupation:
                         type: string
+                      occupation_id:
+                        type: integer
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          confirmation:
+                            type: boolean
+                          employee_name:
+                            type: string
+                          occupation:
+                            type: string
+                          username:
+                            type: string
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                   meta:
                     type: object
                     properties:
@@ -369,7 +731,7 @@ paths:
         schema:
           type: string
       responses:
-        '204':
+        '200':
           description: Not Content
         '403':
           description: Forbidden
@@ -404,15 +766,16 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/employee_params"
-  "/manager/employees?page=3&per_page=5":
-    get:
-      summary: Obter lista de funcionários
+  "/manager/employees/datatable":
+    post:
+      summary: Datatable funcionários
       tags:
       - Funcionários
-      description: Rota para lista de OS por usuário, essa rota pode ser executada
-        por usuário gerente ou RH
+      description: Rota para datatable, essa rota pode ser executada por usuário gerente
+        ou RH
       security:
       - Authorization: []
+      parameters: []
       responses:
         '200':
           description: Sucesso
@@ -421,9 +784,12 @@ paths:
               schema:
                 type: object
                 properties:
+                  draw:
+                    type: integer
+                  totalRecords:
+                    type: integer
                   data:
                     type: array
-                    maxItems: 5
                     items:
                       type: object
                       properties:
@@ -431,35 +797,112 @@ paths:
                           type: integer
                         name:
                           type: string
+                        confirmation:
+                          type: string
                         identity:
                           type: string
                         occupation:
                           type: string
-                  meta:
-                    type: object
-                    properties:
-                      links:
-                        type: object
-                        properties:
-                          self:
-                            type: string
-                          first:
-                            type: string
-                          last:
-                            type: string
-                          next:
-                            type: string
-                          prev:
-                            type: string
-                      meta:
-                        type: object
-                        properties:
-                          current_page:
-                            type: integer
-                          total_pages:
-                            type: integer
+                        occupation_id:
+                          type: integer
+                        user:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            confirmation:
+                              type: boolean
+                            employee_name:
+                              type: string
+                            occupation:
+                              type: string
+                            username:
+                              type: string
+                            roles:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
         '403':
-          description: Forbidden
+          description: Acesso negado - Token inválido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/datatable_params"
+  "/manager/employees/list":
+    get:
+      summary: Lista de funcionários
+      tags:
+      - Funcionários
+      description: Rota para lista de funcionários completa ou por cargo, essa rota
+        pode ser executada por usuário gerente ou RH
+      security:
+      - Authorization: []
+      parameters:
+      - name: type_occupation
+        in: query
+        description: 'As consultas por cargos podem ser feitas usando esse parâmetro.
+          Ex: mecanic, driver, manager, rh e visitor'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+        '403':
+          description: Acesso negado - Token inválido
           content:
             application/json:
               schema:
@@ -615,6 +1058,15 @@ paths:
                             type: string
                           occupation:
                             type: string
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                       problem:
                         type: object
                         properties:
@@ -647,8 +1099,34 @@ paths:
                             type: string
                           identity:
                             type: string
+                          confirmation:
+                            type: string
                           occupation:
                             type: string
+                          occupation_id:
+                            type: integer
+                          user:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              username:
+                                type: string
+                              employee_name:
+                                type: string
+                              occupation:
+                                type: string
+                              confirmation:
+                                type: boolean
+                              roles:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
                       car_mecanic:
                         type: object
                         properties:
@@ -660,6 +1138,32 @@ paths:
                             type: string
                           occupation:
                             type: string
+                          confirmation:
+                            type: string
+                          occupation_id:
+                            type: integer
+                          user:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              username:
+                                type: string
+                              employee_name:
+                                type: string
+                              occupation:
+                                type: string
+                              confirmation:
+                                type: boolean
+                              roles:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
                       status:
                         type: object
                         properties:
@@ -674,7 +1178,17 @@ paths:
                         properties:
                           id:
                             type: integer
+                          km:
+                            type: integer
+                          car_line_id:
+                            type: integer
                           car_number:
+                            type: string
+                          oil_date:
+                            type: string
+                          tire_date:
+                            type: string
+                          revision_date:
                             type: string
                   meta:
                     type: object
@@ -858,6 +1372,80 @@ paths:
                           type: string
                         details:
                           type: string
+  "/manager/orders/panel":
+    get:
+      summary: Obter lista ordens para painel
+      tags:
+      - Gerente Ordens de Serviço
+      description: Rota para lista de OS para o painel, essa pode ser executada por
+        usuários autenticados
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        reference:
+                          type: string
+                        category:
+                          type: string
+                        description:
+                          type: string
+                        status:
+                          type: string
+                        mecanic:
+                          type: string
+                        owner:
+                          type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
   "/manager/employees/{employee_id}/users":
     post:
       summary: API para cradastro de usuários
@@ -896,6 +1484,15 @@ paths:
                             type: string
                           confirmation:
                             type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                       meta:
                         type: object
                         properties:
@@ -965,6 +1562,15 @@ paths:
                         type: string
                       confirmation:
                         type: boolean
+                      roles:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
                   meta:
                     type: object
                     properties:
@@ -1033,6 +1639,15 @@ paths:
                             type: string
                           confirmation:
                             type: boolean
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                       meta:
                         type: object
                         properties:
@@ -1065,6 +1680,247 @@ paths:
                           type: string
         '403':
           description: Forbidden
+  "/manager/vehicles":
+    post:
+      summary: API para cradastro de Veículos
+      tags:
+      - Veículos
+      description: Rota para cadastro, essa rota pode ser executada por usuário gerente
+        ou RH
+      security:
+      - Authorization: []
+      parameters: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      car_line_id:
+                        type: integer
+                      km:
+                        type: integer
+                      car_number:
+                        type: string
+                      oil_date:
+                        type: string
+                      tire_date:
+                        type: string
+                      revision_date:
+                        type: string
+                  meta:
+                    type: object
+                    properties:
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+        '406':
+          description: Not Acceptable
+        '415':
+          description: Unsupported Media Type
+        '403':
+          description: Forbidden - Token inválido
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        resource:
+                          type: string
+                        field:
+                          type: string
+                        detail:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/vehicle_params"
+  "/manager/vehicles/datatable":
+    post:
+      summary: Datatable Veículos
+      tags:
+      - Veículos
+      description: Rota para datatable, essa rota pode ser executada por usuário gerente
+        ou RH
+      security:
+      - Authorization: []
+      parameters: []
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  draw:
+                    type: integer
+                  totalRecords:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        car_line_id:
+                          type: integer
+                        km:
+                          type: integer
+                        car_number:
+                          type: string
+                        oil_date:
+                          type: string
+                        tire_date:
+                          type: string
+                        revision_date:
+                          type: string
+        '403':
+          description: Acesso negado - Token inválido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Token não informado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        status:
+                          type: string
+                        details:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/datatable_params"
+  "/manager/vehicles/{id}":
+    put:
+      summary: API para atualizar Veículos
+      tags:
+      - Veículos
+      description: Rota para atualizar, essa rota pode ser executada por usuário gerente
+        ou RH
+      security:
+      - Authorization: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Sucess
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      car_line_id:
+                        type: integer
+                      km:
+                        type: integer
+                      car_number:
+                        type: string
+                      oil_date:
+                        type: string
+                      tire_date:
+                        type: string
+                      revision_date:
+                        type: string
+                  meta:
+                    type: object
+                    properties:
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+        '403':
+          description: Forbidden
+        '406':
+          description: Not Acceptable
+        '415':
+          description: Unsupported Media Type
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        resource:
+                          type: string
+                        field:
+                          type: string
+                        detail:
+                          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/vehicle_params"
   "/orders":
     post:
       summary: API para cradastro de ordens de serviços
@@ -1105,6 +1961,15 @@ paths:
                             type: string
                           occupation:
                             type: string
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                       problem:
                         type: object
                         properties:
@@ -1135,7 +2000,17 @@ paths:
                         properties:
                           id:
                             type: integer
+                          km:
+                            type: integer
+                          car_line_id:
+                            type: integer
                           car_number:
+                            type: string
+                          oil_date:
+                            type: string
+                          tire_date:
+                            type: string
+                          revision_date:
                             type: string
                   meta:
                     type: object
@@ -1329,6 +2204,15 @@ paths:
                             type: string
                           occupation:
                             type: string
+                          roles:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
                       problem:
                         type: object
                         properties:
@@ -1359,7 +2243,17 @@ paths:
                         properties:
                           id:
                             type: integer
+                          km:
+                            type: integer
+                          car_line_id:
+                            type: integer
                           car_number:
+                            type: string
+                          oil_date:
+                            type: string
+                          tire_date:
+                            type: string
+                          revision_date:
                             type: string
                   meta:
                     type: object
@@ -1455,6 +2349,75 @@ components:
               type: integer
             is_user:
               type: boolean
+    vehicle_params:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            car_number:
+              type: string
+            km:
+              type: integer
+            car_line_id:
+              type: integer
+            oil_date:
+              type: string
+            tire_date:
+              type: string
+            revision_date:
+              type: string
+    datatable_params:
+      type: object
+      properties:
+        draw:
+          type: integer
+        page:
+          type: integer
+        per_page:
+          type: integer
+        sort_field:
+          type: string
+        sort_direction:
+          type: string
+        search_value:
+          type: string
+    charts_report_params:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type_report:
+              type: integer
+            initial_date:
+              type: string
+            end_date:
+              type: string
+    charts_mecanic_report_params:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            initial_date:
+              type: string
+            end_date:
+              type: string
+    charts_employee_problems_report_params:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            initial_date:
+              type: string
+            end_date:
+              type: string
+            employee_id:
+              type: integer
+            employee_type:
+              type: string
 servers:
 - url: http://localhost:3003
   variables:

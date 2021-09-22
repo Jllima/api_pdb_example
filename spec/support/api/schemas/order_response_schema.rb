@@ -13,6 +13,14 @@ class OrderResponse
           string :employee_name
           string :username
           string :occupation
+          array :roles do
+            items do
+              object do
+                integer :id
+                string :name
+              end
+            end
+          end
         end
         object :problem do
           integer :id
@@ -30,7 +38,12 @@ class OrderResponse
         end
         object :vehicle do
           integer :id
+          integer :km
+          integer :car_line_id
           string :car_number
+          string :oil_date
+          string :tire_date
+          string :revision_date
         end
       end
       object :meta do

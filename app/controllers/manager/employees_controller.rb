@@ -5,30 +5,20 @@ module Manager
 
     # GET /manager/employees
     def index
-      employees = Employee.page(current_page).per_page(per_page)
-
-      options = pagination_meta_generator(request, employees.total_pages)
-
-      json_response serializer_blueprint(:employee, employees, meta: options)
+      employees = if params[:type_occupation].present?
+                    Employee.select(:id, :name).by_occupation(params[:type_occupation])
+                  else
+                    Employee.select(:id, :name)
+                  end
+      json_response employees
     end
 
     def datatable
-      @employees = Employee.includes(:user, :occupation).order(:name)
-      if params[:sort_field].present?
-        sort_hash = {}
-        sort_hash[params[:sort_field].to_sym] = params[:sort_direction].to_sym
-        @employees = @employees.order(sort_hash)
-      end
-      if params[:search_value].present?
-        search = "%#{params[:search_value]}%"
-        @employees = @employees.where('name ILIKE ?', search)
-      end
-      @total = @employees.count
-
-      @employees = @employees.page(params[:page]).per_page(params[:per_page])
-      @draw = params[:draw]
-
-      json_response({ draw: @draw, totalRecords: @total, data: EmployeeBlueprint.render_as_hash(@employees) })
+      @employees = Employee.includes(:occupation, user: :roles).order(:name)
+      result_dt = datatable_render(@employees, params, field_search: 'name')
+      json_response({ draw: params[:draw],
+                      totalRecords: result_dt[:totalRecords],
+                      data: EmployeeBlueprint.render_as_hash(result_dt[:result]) })
     end
 
     # GET /manager/employees/1
