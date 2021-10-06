@@ -1,6 +1,6 @@
 module Manager
   class VehiclesController < ApplicationController
-    before_action :set_vehicle, only: :update
+    before_action :set_vehicle, only: %i[update show]
     before_action :autorize_manager_or_rh
 
     def datatable
@@ -22,6 +22,22 @@ module Manager
     def update
       @vehicle.update!(vehicle_params)
       json_response VehicleBlueprint.render(@vehicle, root: :data, meta: { links: links(@vehicle) })
+    end
+
+    def show
+      json_response VehicleBlueprint.render(@vehicle, root: :data, meta: { links: links(@vehicle) })
+    end
+
+    def revisions
+      vehicles_to_oil_change = Vehicles::ChangeTime.call(method: :check_oil_change_time)
+      vehicles_to_tire_change = Vehicles::ChangeTime.call(method: :check_tire_change_time)
+      vehicles_to_revision_change = Vehicles::ChangeTime.call(method: :check_revision_change_time)
+
+      json_response({
+                      vehicles_to_oil_change: vehicles_to_oil_change,
+                      vehicles_to_tire_change: vehicles_to_tire_change,
+                      vehicles_to_revision_change: vehicles_to_revision_change
+                    })
     end
 
     private
