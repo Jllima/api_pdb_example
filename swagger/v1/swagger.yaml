@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.1
 info:
-  title: API Prontuário do Busão
+  title: API Backend Prontuário do Busão
   version: v1
 paths:
   "/auth/login":
