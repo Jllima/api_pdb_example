@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - hom
 
 jobs:
   build:
@@ -15,4 +15,3 @@ jobs:
           heroku_api_key: 0630ff3e-3190-4c11-a8fe-6a11393167cc
           heroku_app_name: "apipdb" #Must be unique in Heroku
           heroku_email: "jlimajorge@gmail.com"
-          remote_branch: "main"
