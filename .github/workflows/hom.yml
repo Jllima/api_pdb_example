@@ -1,9 +1,13 @@
 name: Deploy
 
+# on:
+#   push:
+#     branches:
+#       - hom
+
 on:
-  push:
-    branches:
-      - hom
+  pull_request:
+    branches: [ hom ]
 
 jobs:
   build:
