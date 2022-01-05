@@ -1,17 +1,18 @@
-name: CI
+name: Deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: 0630ff3e-3190-4c11-a8fe-6a11393167cc
+          heroku_app_name: "apipdb" #Must be unique in Heroku
+          heroku_email: "jlimajorge@gmail.com"
+          remote_branch: "main"
